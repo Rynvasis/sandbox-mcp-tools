@@ -9,8 +9,8 @@ from __future__ import annotations
 import logging
 from mcp.server.fastmcp import FastMCP
 
-from sandbox_mcp_tools.sandbox import Executor, ExecutionResult, validate_command, validate_path
-from sandbox_mcp_tools.sandbox.config import DEFAULT_TIMEOUT_PYTHON
+from sandbox import Executor, ExecutionResult, validate_command, validate_path
+from sandbox.config import DEFAULT_TIMEOUT_PYTHON
 
 mcp = FastMCP(
     "sandbox-python",

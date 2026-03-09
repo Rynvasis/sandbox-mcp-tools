@@ -1,6 +1,6 @@
 import pytest
-from sandbox_mcp_tools.sandbox.executor import ExecutionResult
-from sandbox_mcp_tools.servers.python_server import format_result
+from sandbox.executor import ExecutionResult
+from servers.python_server import format_result
 
 def test_format_result_success():
     """Test formatting a successful execution result."""

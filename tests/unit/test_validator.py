@@ -1,6 +1,6 @@
 """Unit tests for validator components."""
 import pytest
-from sandbox_mcp_tools.sandbox.validator import validate_command
+from sandbox.validator import validate_command
 
 def test_validate_command_allowed():
     """Test commands that should be permitted."""
@@ -89,7 +89,7 @@ def test_validate_command_pipes():
         with pytest.raises(ValueError):
             validate_command(cmd)
 
-from sandbox_mcp_tools.sandbox.validator import validate_path
+from sandbox.validator import validate_path
 
 def test_validate_path_allowed():
     """Test valid paths resolve correctly."""

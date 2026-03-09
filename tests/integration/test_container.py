@@ -1,6 +1,6 @@
 import pytest
 import asyncio
-from sandbox_mcp_tools.sandbox.container import ContainerManager
+from sandbox.container import ContainerManager
 
 @pytest.mark.asyncio
 async def test_container_lifecycle():

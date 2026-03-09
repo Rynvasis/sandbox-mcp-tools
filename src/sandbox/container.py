@@ -9,9 +9,9 @@ import docker
 from docker.errors import DockerException, ImageNotFound
 from docker.models.containers import Container
 
-from sandbox_mcp_tools.sandbox import config
+from sandbox import config
 
-logger = logging.getLogger("sandbox_mcp_tools.sandbox.container")
+logger = logging.getLogger("sandbox.container")
 
 class ContainerManager:
     """Manages the full lifecycle of the sandbox container."""

@@ -5,8 +5,8 @@ import pytest_asyncio
 import uuid
 from pathlib import Path
 
-from sandbox_mcp_tools.sandbox.container import ContainerManager
-from sandbox_mcp_tools.servers.python_server import mcp
+from sandbox.container import ContainerManager
+from servers.python_server import mcp
 
 pytestmark = pytest.mark.asyncio
 
@@ -16,11 +16,11 @@ async def ensure_sandbox_running():
     manager = ContainerManager()
     await manager.start()
     # Clean up any test scripts
-    from sandbox_mcp_tools.sandbox.executor import Executor
+    from sandbox.executor import Executor
     await Executor().execute("rm -f /workspace/test_*.py")
     yield
 
-from sandbox_mcp_tools.servers.python_server import execute_python, execute_python_file
+from servers.python_server import execute_python, execute_python_file
 
 @pytest.mark.asyncio
 async def test_execute_python_success():
@@ -62,7 +62,7 @@ async def test_execute_python_empty():
 async def test_execute_python_file_success():
     """T024: Test successful file execution."""
     # Write test file
-    from sandbox_mcp_tools.sandbox.executor import Executor
+    from sandbox.executor import Executor
     await Executor().execute("echo \"print('from file')\" > /workspace/test_file.py")
     
     result = await execute_python_file("test_file.py")

@@ -1,8 +1,8 @@
 """Integration tests for the executor component."""
 import pytest
 import asyncio
-from sandbox_mcp_tools.sandbox.executor import Executor, ExecutionResult
-from sandbox_mcp_tools.sandbox.config import MAX_OUTPUT_SIZE
+from sandbox.executor import Executor, ExecutionResult
+from sandbox.config import MAX_OUTPUT_SIZE
 
 @pytest.fixture
 def executor():

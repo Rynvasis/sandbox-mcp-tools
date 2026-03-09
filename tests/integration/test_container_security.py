@@ -1,7 +1,7 @@
 import pytest
 import pytest_asyncio
 import asyncio
-from sandbox_mcp_tools.sandbox.container import ContainerManager
+from sandbox.container import ContainerManager
 
 @pytest_asyncio.fixture
 async def sandbox():
