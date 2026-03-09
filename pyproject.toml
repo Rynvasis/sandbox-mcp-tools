@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling>=1.22"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sandbox-mcp-tools"
+version = "0.1.0"
+description = "Sandbox MCP Tools project foundation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "mcp[cli]",
+  "docker",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-asyncio",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sandbox_mcp_tools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
