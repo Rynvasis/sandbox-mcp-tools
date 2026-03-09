@@ -88,7 +88,7 @@ async def execute_python_file(filename: str, timeout: int = DEFAULT_TIMEOUT_PYTH
         filename: Path to the Python file relative to the workspace.
         timeout: Maximum execution time in seconds.
     """
-    logger.info("Executing Python tool: execute_python_file", extra={"filename": filename})
+    logger.info("Executing Python tool: execute_python_file", extra={"file_path": filename})
     
     try:
         resolved_path = str(validate_path(filename))
