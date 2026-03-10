@@ -1,6 +1,6 @@
 import pytest
 from sandbox.executor import ExecutionResult
-from servers.python_server import format_result
+from servers.response import format_result
 
 def test_format_result_success():
     """Test formatting a successful execution result."""
