@@ -3,4 +3,5 @@
 Available servers:
     - python_server: Executes Python code or Python files inside the sandbox.
     - bash_server: Executes validated Bash commands inside the sandbox.
+    - file_server: Provides read/write/list tools for files inside the sandbox workspace.
 """
