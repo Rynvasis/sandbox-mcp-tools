@@ -7,36 +7,19 @@ execute Python code safely within the Docker sandbox environment.
 from __future__ import annotations
 
 import logging
+import uuid
+import base64
+
 from mcp.server.fastmcp import FastMCP
 
-from sandbox import Executor, ExecutionResult, validate_command, validate_path
+from sandbox import Executor, validate_command, validate_path
 from sandbox.config import DEFAULT_TIMEOUT_PYTHON
+from servers.response import format_result
 
 mcp = FastMCP(
     "sandbox-python",
     instructions="Executes Python code safely within the isolated sandbox container."
 )
-
-def format_result(result: ExecutionResult) -> str:
-    """Format the execution result as structured multi-section text.
-
-    Args:
-        result: The execution result dataclass.
-        
-    Returns:
-        A formatted string with labeled sections for cursor to consume.
-    """
-    return (
-        f"[stdout]\n{result.stdout}\n\n"
-        f"[stderr]\n{result.stderr}\n\n"
-        f"[exit_code]\n{result.exit_code}\n\n"
-        f"[execution_time]\n{result.execution_time_ms}ms\n\n"
-        f"[timed_out]\n{result.timed_out}"
-    )
-
-import uuid
-import base64
-
 logger = logging.getLogger(__name__)
 
 @mcp.tool()
