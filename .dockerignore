@@ -1,4 +1,17 @@
 __pycache__/
+*.pyc
+dist/
+*.egg-info/
+.git/
+node_modules/
+Dockerfile
+.dockerignore
+*.log*
+.env*
+coverage/
+.vscode/
+.idea/
+__pycache__/
 *.py[cod]
 *$py.class
 *.so
