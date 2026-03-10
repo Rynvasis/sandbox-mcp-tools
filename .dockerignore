@@ -21,6 +21,11 @@ dist/
 build/
 *.whl
 
+# .NET / C#
+bin/
+obj/
+.vs/
+
 .venv/
 venv/
 ENV/
