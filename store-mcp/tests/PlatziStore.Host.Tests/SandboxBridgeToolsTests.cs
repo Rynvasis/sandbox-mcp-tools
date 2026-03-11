@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
+using PlatziStore.Infrastructure.Configuration;
+using PlatziStore.Infrastructure.Observability;
 
 namespace PlatziStore.Host.Tests;
 
@@ -15,12 +19,17 @@ public class SandboxBridgeToolsTests
     private readonly Mock<ICatalogQueryService> _catalogServiceMock;
     private readonly Mock<ICategoryQueryService> _categoryServiceMock;
     private readonly Mock<ICustomerAccountService> _customerServiceMock;
+    private readonly StructuredEventLogger _dummyLogger;
 
     public SandboxBridgeToolsTests()
     {
         _catalogServiceMock = new Mock<ICatalogQueryService>();
         _categoryServiceMock = new Mock<ICategoryQueryService>();
         _customerServiceMock = new Mock<ICustomerAccountService>();
+        
+        var options = Options.Create(new TelemetryOptions { MetricsEnabled = false });
+        var metrics = new ToolInvocationMetrics();
+        _dummyLogger = new StructuredEventLogger(NullLogger<StructuredEventLogger>.Instance, options, metrics);
     }
 
     [Fact]
@@ -40,6 +49,7 @@ public class SandboxBridgeToolsTests
             _catalogServiceMock.Object, 
             _categoryServiceMock.Object, 
             _customerServiceMock.Object, 
+            _dummyLogger,
             "products");
 
         // Assert
@@ -67,6 +77,7 @@ public class SandboxBridgeToolsTests
             _catalogServiceMock.Object, 
             _categoryServiceMock.Object, 
             _customerServiceMock.Object, 
+            _dummyLogger,
             "products");
 
         // Assert
@@ -84,6 +95,7 @@ public class SandboxBridgeToolsTests
             _catalogServiceMock.Object, 
             _categoryServiceMock.Object, 
             _customerServiceMock.Object, 
+            _dummyLogger,
             "invalid_scope");
 
         // Assert
@@ -103,6 +115,7 @@ public class SandboxBridgeToolsTests
             _catalogServiceMock.Object, 
             _categoryServiceMock.Object, 
             _customerServiceMock.Object, 
+            _dummyLogger,
             "products");
 
         // Assert

@@ -1,10 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using PlatziStore.Application.Contracts;
 using PlatziStore.Application.DependencyInjection;
 using PlatziStore.Host.Adapters;
 using PlatziStore.Infrastructure.DependencyInjection;
+using PlatziStore.Infrastructure.Configuration;
 
 namespace PlatziStore.Host;
 
@@ -19,6 +21,14 @@ public class Program
         // non-JSON text from polluting the MCP transport channel.
         builder.Logging.ClearProviders();
         builder.Logging.AddDebug(); // Debug provider writes to stderr, safe for MCP
+        builder.Logging.AddConsole(options => options.LogToStandardErrorThreshold = LogLevel.Trace);
+
+        // Apply Telemetry dynamic log level
+        var telemetryConfig = builder.Configuration.GetSection("Telemetry").Get<TelemetryOptions>() ?? new TelemetryOptions();
+        if (Enum.TryParse<LogLevel>(telemetryConfig.LogLevel, out var level))
+        {
+            builder.Logging.SetMinimumLevel(level);
+        }
 
         // Host.CreateApplicationBuilder automatically loads appsettings.json from the content root.
 
