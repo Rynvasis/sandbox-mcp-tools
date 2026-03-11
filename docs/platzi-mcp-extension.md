@@ -334,7 +334,7 @@ store-mcp/
 | Run Python analysis on store data | `analyze_store_data` | `code: string`, `timeout?: int` | Exports store data to workspace → invokes `sandbox-python` |
 | Run Bash on store exports | `process_store_export` | `command: string` | Runs commands on exported data via `sandbox-bash` |
 
-**Total**: **27 MCP tools** across 7 tool classes.
+**Total**: **26 MCP tools** across 7 tool classes.
 
 ---
 
@@ -588,7 +588,7 @@ add the following to Cursor's MCP configuration:
 }
 ```
 
-The server will be discovered by Cursor and all 27 tools will be available
+The server will be discovered by Cursor and all 26 tools will be available
 for AI-driven interactions with the Platzi Fake Store API.
 
 ---
@@ -746,7 +746,7 @@ infrastructure gateway.
 ### Phase 5 — MCP Tool Layer Implementation
 
 **Description**: Implement the MCP Host layer — server bootstrap, DI
-registration, and all 25 core MCP tool definitions (excluding sandbox bridge).
+registration, and all 24 core MCP tool definitions (excluding sandbox bridge).
 
 **Tasks**:
 
@@ -770,14 +770,14 @@ registration, and all 25 core MCP tool definitions (excluding sandbox bridge).
 8. Implement `IdentityAccessTools.cs` with 3 tools:
    `authenticate_customer`, `get_authenticated_profile`, `refresh_access_token`
 9. Verify `dotnet run --project PlatziStore.Host` starts without errors and
-   the server declares all 25 tools
+   the server declares all 24 tools
 
 **Outputs**:
 
 - `PlatziStore.Host/Program.cs`
 - `PlatziStore.Host/Startup.cs`
 - 6 tool class files in `PlatziStore.Host/Tools/`
-- Running MCP server on stdio with 25 registered tools
+- Running MCP server on stdio with 24 registered tools
 
 ---
 

@@ -22,6 +22,8 @@ public static class CatalogBrowsingTools
         {
             var pagination = new PaginationEnvelope { Offset = offset, Limit = limit };
             var outcome = await service.ListProductsAsync(pagination);
+            if (outcome.IsSuccess && outcome.Data != null && outcome.Data.Items.Count == 0)
+                return "No products found.";
             return ResponseFormatter.FormatOutcome(outcome, ResponseFormatter.FormatProductList);
         });
     }
