@@ -8,7 +8,7 @@
 
 # 🧰 Sandbox MCP Tools
 
-> **A modular AI tooling platform that exposes sandboxed Python execution, Bash commands, file management, and e-commerce store operations as Model Context Protocol (MCP) servers — enabling AI agents like Claude, Cursor, and Antigravity to safely perform complex, multi-step workflows.**
+> **A modular AI tooling platform that exposes sandboxed Python execution, Bash commands, file management, and e-commerce store operations as Model Context Protocol (MCP) servers — enabling AI agents like Claude and Cursor to safely perform complex, multi-step workflows.**
 
 ---
 
@@ -49,7 +49,7 @@ The project is built as a **production-quality portfolio piece**, featuring clea
 
 | Feature | Description |
 |---------|-------------|
-| 🔌 **MCP Tool Architecture** | 4 MCP servers exposing **30 tools** via the standard JSON-RPC/stdio transport |
+| 🔌 **MCP Tool Architecture** | 4 MCP servers exposing **32 tools** via the standard JSON-RPC/stdio transport |
 | 🐳 **Sandboxed Execution** | Docker container with resource limits, network isolation, and command blocklists |
 | 🤖 **AI Agent Orchestration** | Works with Claude Desktop and Cursor IDE out of the box |
 | 🛒 **Platzi Store Integration** | Full CRUD for products, categories, customers, and authentication |
@@ -173,7 +173,7 @@ sandbox-mcp-tools/
 
 ## 🔌 MCP Servers
 
-This project runs **4 MCP servers** exposing a total of **30 tools** to AI agents.
+This project runs **4 MCP servers** exposing a total of **32 tools** to AI agents.
 
 ### Python Sandbox Servers
 
@@ -202,7 +202,7 @@ These three servers share the Docker sandbox backend:
 
 ### .NET Platzi Store Server
 
-The `PlatziStoreServer` exposes **24 tools** organized into functional groups:
+The `PlatziStoreServer` exposes **26 tools** organized into functional groups:
 
 | Tool Group | Tools | Description |
 |-----------|-------|-------------|
