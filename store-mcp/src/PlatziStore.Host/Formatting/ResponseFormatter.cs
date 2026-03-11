@@ -1,6 +1,8 @@
 using PlatziStore.Application.DataTransfer;
 using PlatziStore.Shared.Models;
+using PlatziStore.Shared.Utilities;
 using System.Text;
+using System.Text.Json;
 
 namespace PlatziStore.Host.Formatting;
 
@@ -102,6 +104,29 @@ public static class ResponseFormatter
         sb.AppendLine("Authentication Successful");
         sb.AppendLine($"Access Token: {tokens.AccessToken}");
         sb.AppendLine($"Refresh Token: {tokens.RefreshToken}");
+        return sb.ToString().TrimEnd();
+    }
+
+    public static string FormatStoreExport(string dataScope, int count, PaginationEnvelope? pagination, object items)
+    {
+        var wrapper = new
+        {
+            DataScope = dataScope,
+            Count = count,
+            Pagination = pagination,
+            Items = items
+        };
+
+        return JsonSerializer.Serialize(wrapper, JsonSerializationDefaults.Options);
+    }
+
+    public static string FormatNdjsonExport<T>(IEnumerable<T> items)
+    {
+        var sb = new StringBuilder();
+        foreach (var item in items)
+        {
+            sb.AppendLine(JsonSerializer.Serialize(item, JsonSerializationDefaults.Options));
+        }
         return sb.ToString().TrimEnd();
     }
 }
