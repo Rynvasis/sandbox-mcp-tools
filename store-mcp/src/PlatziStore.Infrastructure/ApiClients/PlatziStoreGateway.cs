@@ -6,6 +6,7 @@ using PlatziStore.Domain.Entities;
 using PlatziStore.Domain.Exceptions;
 using PlatziStore.Infrastructure.ApiClients.Dtos;
 using PlatziStore.Shared.Exceptions;
+using PlatziStore.Infrastructure.Observability;
 
 namespace PlatziStore.Infrastructure.ApiClients;
 
@@ -14,12 +15,21 @@ public class PlatziStoreGateway : IPlatziStoreGateway
     private readonly HttpClient _httpClient;
     private readonly PlatziStoreResponseParser _parser;
     private readonly ILogger<PlatziStoreGateway> _logger;
+    private readonly ToolInvocationMetrics _metrics;
+    private readonly StructuredEventLogger _structuredLogger;
 
-    public PlatziStoreGateway(HttpClient httpClient, PlatziStoreResponseParser parser, ILogger<PlatziStoreGateway> logger)
+    public PlatziStoreGateway(
+        HttpClient httpClient, 
+        PlatziStoreResponseParser parser, 
+        ILogger<PlatziStoreGateway> logger,
+        ToolInvocationMetrics metrics,
+        StructuredEventLogger structuredLogger)
     {
         _httpClient = httpClient;
         _parser = parser;
         _logger = logger;
+        _metrics = metrics;
+        _structuredLogger = structuredLogger;
     }
 
     private async Task EnsureSuccessOrThrowAsync(HttpResponseMessage response, string entityType, object? entityId = null, CancellationToken cancellationToken = default)
@@ -57,9 +67,12 @@ public class PlatziStoreGateway : IPlatziStoreGateway
 
     private async Task<string> SendAndReadStringAsync(HttpRequestMessage request, string entityType, object? entityId = null, CancellationToken cancellationToken = default)
     {
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        int statusCode = 0;
         try
         {
             using var response = await _httpClient.SendAsync(request, cancellationToken);
+            statusCode = (int)response.StatusCode;
             await EnsureSuccessOrThrowAsync(response, entityType, entityId, cancellationToken);
             return await response.Content.ReadAsStringAsync(cancellationToken);
         }
@@ -70,6 +83,13 @@ public class PlatziStoreGateway : IPlatziStoreGateway
         catch (HttpRequestException ex)
         {
             throw new ExternalServiceException("PlatziStoreApi", $"Network error: {ex.Message}", null, ex);
+        }
+        finally
+        {
+            sw.Stop();
+            var endpoint = request.RequestUri?.AbsolutePath ?? "unknown";
+            _metrics.RecordApiCall(statusCode, sw.ElapsedMilliseconds);
+            _structuredLogger.LogApiCallCompleted(endpoint, statusCode, sw.ElapsedMilliseconds);
         }
     }
 

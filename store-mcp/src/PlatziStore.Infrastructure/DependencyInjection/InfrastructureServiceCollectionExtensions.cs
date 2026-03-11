@@ -6,6 +6,7 @@ using Polly;
 using Polly.Extensions.Http;
 using PlatziStore.Infrastructure.ApiClients;
 using PlatziStore.Infrastructure.Configuration;
+using PlatziStore.Infrastructure.Observability;
 
 namespace PlatziStore.Infrastructure.DependencyInjection;
 
@@ -14,7 +15,11 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddPlatziStoreInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<PlatziStoreOptions>(configuration.GetSection("PlatziStore"));
+        services.Configure<TelemetryOptions>(configuration.GetSection("Telemetry"));
 
+        services.AddSingleton<StructuredEventLogger>();
+        services.AddSingleton<ToolInvocationMetrics>();
+        
         services.AddSingleton<PlatziStoreResponseParser>();
 
         services.AddHttpClient<IPlatziStoreGateway, PlatziStoreGateway>((serviceProvider, client) =>
