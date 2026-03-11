@@ -34,6 +34,27 @@ public sealed record ImageUrl
         return new ImageUrl(normalized);
     }
 
+    /// <summary>
+    /// Safely creates an ImageUrl from a string, returning a fallback if the value is invalid.
+    /// Use this when parsing data from untrusted external APIs.
+    /// </summary>
+    public static ImageUrl SafeFrom(string? value, string fallback = "https://example.com/placeholder.jpg")
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return new ImageUrl(fallback);
+
+        var normalized = value.Trim();
+
+        if (!Uri.TryCreate(normalized, UriKind.Absolute, out var uri))
+            return new ImageUrl(fallback);
+
+        if (!string.Equals(uri.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            return new ImageUrl(fallback);
+
+        return new ImageUrl(normalized);
+    }
+
     public override string ToString() => Value;
 }
 

@@ -28,6 +28,9 @@ build/
 bin/
 obj/
 .vs/
+*.user
+*.suo
+packages/
 
 # Virtual environments
 .venv/

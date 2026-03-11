@@ -71,7 +71,7 @@ public class PlatziStoreResponseParser
             Price = MonetaryAmount.From(dto.Price),
             Description = dto.Description,
             Category = MapCategory(dto.Category),
-            Images = dto.Images?.Select(ImageUrl.From).ToList().AsReadOnly() ?? new List<ImageUrl>().AsReadOnly()
+            Images = dto.Images?.Select(img => ImageUrl.SafeFrom(img)).ToList().AsReadOnly() ?? new List<ImageUrl>().AsReadOnly()
         };
     }
 
@@ -82,7 +82,7 @@ public class PlatziStoreResponseParser
             Id = dto.Id,
             Name = dto.Name,
             Slug = string.IsNullOrWhiteSpace(dto.Slug) ? SlugIdentifier.From("default-slug") : SlugIdentifier.From(dto.Slug),
-            CoverImage = string.IsNullOrWhiteSpace(dto.Image) ? ImageUrl.From("https://example.com/default.jpg") : ImageUrl.From(dto.Image)
+            CoverImage = ImageUrl.SafeFrom(dto.Image)
         };
     }
 
@@ -94,7 +94,7 @@ public class PlatziStoreResponseParser
             Email = EmailAddress.From(dto.Email),
             DisplayName = dto.Name ?? string.Empty,
             Role = dto.Role ?? string.Empty,
-            Avatar = string.IsNullOrWhiteSpace(dto.Avatar) ? ImageUrl.From("https://example.com/avatar.jpg") : ImageUrl.From(dto.Avatar)
+            Avatar = ImageUrl.SafeFrom(dto.Avatar)
         };
     }
 }
